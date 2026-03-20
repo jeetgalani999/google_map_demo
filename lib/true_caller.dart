@@ -22,277 +22,294 @@ class ManualVerifyNumberScreen extends GetView<AuthController> {
         resizeToAvoidBottomInset: true,
         body: SafeArea(
           child: Obx(
-            () =>
-                controller.showProgressBar.value
-                    ? const Center(child: CircularProgressIndicator())
-                    : Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20.w,
-                        vertical: 20.h,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Obx(
-                                () => Column(
-                                  children: [
-                                    Visibility(
-                                      visible: controller.showInputNumberView(),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: AppColors.outlineColor,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
+            () => controller.showProgressBar.value
+                ? const Center(child: CircularProgressIndicator())
+                : Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 20.h,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Obx(
+                              () => Column(
+                                children: [
+                                  Visibility(
+                                    visible: controller.showInputNumberView(),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: AppColors.outlineColor,
                                             ),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: 20.w,
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 20.w,
+                                            ),
+                                            child: InternationalPhoneNumberInput(
+                                              onInputChanged:
+                                                  (PhoneNumber number) {
+                                                    controller
+                                                        .onPhoneNumberChanged(
+                                                          number.isoCode,
+                                                          number.dialCode,
+                                                        );
+                                                    controller.validatePhone();
+                                                  },
+                                              selectorConfig:
+                                                  const SelectorConfig(
+                                                    selectorType:
+                                                        PhoneInputSelectorType
+                                                            .DIALOG,
+                                                  ),
+                                              ignoreBlank: false,
+                                              selectorTextStyle: TextStyle(
+                                                color: AppColors.blackColor,
                                               ),
-                                              child: InternationalPhoneNumberInput(
-                                                onInputChanged: (
-                                                  PhoneNumber number,
-                                                ) {
-                                                  controller
-                                                      .onPhoneNumberChanged(
-                                                        number.isoCode,
-                                                        number.dialCode,
-                                                      );
-                                                  controller.validatePhone();
-                                                },
-                                                selectorConfig:
-                                                    const SelectorConfig(
-                                                      selectorType:
-                                                          PhoneInputSelectorType
-                                                              .DIALOG,
-                                                    ),
-                                                ignoreBlank: false,
-                                                selectorTextStyle: TextStyle(
-                                                  color: AppColors.blackColor,
-                                                ),
-                                                scrollPadding: EdgeInsets.only(
-                                                  bottom: 120.h,
-                                                ),
-                                                formatInput: false,
-                                                keyboardType:
-                                                    TextInputType.phone,
-                                                initialValue: PhoneNumber(
-                                                  isoCode:
-                                                      controller
-                                                              .isoCode
-                                                              .value
-                                                              .isEmpty
-                                                          ? 'IN'
-                                                          : controller
-                                                              .isoCode
-                                                              .value,
-                                                  dialCode:
-                                                      controller
-                                                              .dialCode
-                                                              .value
-                                                              .isEmpty
-                                                          ? '+91'
-                                                          : controller
-                                                              .dialCode
-                                                              .value,
-                                                ),
-                                                validator: (value) => null,
-                                                textFieldController:
-                                                    controller.phoneController,
-                                                inputDecoration:
-                                                    InputDecoration(
-                                                      hintText:
-                                                          'enter_phone_number'
-                                                              .tr,
-                                                      border: InputBorder.none,
-                                                      contentPadding:
-                                                          EdgeInsets.zero,
-                                                      isDense: true,
-                                                    ),
+                                              scrollPadding: EdgeInsets.only(
+                                                bottom: 120.h,
+                                              ),
+                                              formatInput: false,
+                                              keyboardType: TextInputType.phone,
+                                              initialValue: PhoneNumber(
+                                                isoCode:
+                                                    controller
+                                                        .isoCode
+                                                        .value
+                                                        .isEmpty
+                                                    ? 'IN'
+                                                    : controller.isoCode.value,
+                                                dialCode:
+                                                    controller
+                                                        .dialCode
+                                                        .value
+                                                        .isEmpty
+                                                    ? '+91'
+                                                    : controller.dialCode.value,
+                                              ),
+                                              validator: (value) => null,
+                                              textFieldController:
+                                                  controller.phoneController,
+                                              inputDecoration: InputDecoration(
+                                                hintText:
+                                                    'enter_phone_number'.tr,
+                                                border: InputBorder.none,
+                                                contentPadding: EdgeInsets.zero,
+                                                isDense: true,
                                               ),
                                             ),
                                           ),
-                                          if (controller
-                                              .phoneError
-                                              .value
-                                              .isNotEmpty)
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                top: 8.h,
-                                                left: 4.w,
-                                              ),
-                                              child: Text(
-                                                controller.phoneError.value,
-                                                style: TextStyle(
-                                                  color: AppColors.redColor,
-                                                  fontSize: 12.sp,
-                                                ),
+                                        ),
+                                        if (controller
+                                            .phoneError
+                                            .value
+                                            .isNotEmpty)
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              top: 8.h,
+                                              left: 4.w,
+                                            ),
+                                            child: Text(
+                                              controller.phoneError.value,
+                                              style: TextStyle(
+                                                color: AppColors.redColor,
+                                                fontSize: 12.sp,
                                               ),
                                             ),
-                                        ],
-                                      ),
+                                          ),
+                                      ],
                                     ),
-                                    SizedBox(height: 20.h),
-                                    Visibility(
-                                      visible: controller.showInputOtpView(),
-                                      child: TextField(
-                                        controller: controller.otpController,
-                                        maxLength: 6,
-                                        keyboardType: TextInputType.number,
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter
-                                              .digitsOnly,
-                                        ],
-                                        style: TextStyle(
-                                          color: AppColors.greenColor,
+                                  ),
+                                  SizedBox(height: 20.h),
+                                  Visibility(
+                                    visible: controller.showInputOtpView(),
+                                    child: TextField(
+                                      controller: controller.otpController,
+                                      maxLength: 6,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
+                                      style: TextStyle(
+                                        color: AppColors.greenColor,
+                                        fontSize: fontSize,
+                                      ),
+                                      decoration: InputDecoration(
+                                        labelText: "enter_otp".tr,
+                                        labelStyle: TextStyle(
+                                          color: AppColors.blackColor,
                                           fontSize: fontSize,
                                         ),
-                                        decoration: InputDecoration(
-                                          labelText: "enter_otp".tr,
-                                          labelStyle: TextStyle(
-                                            color: AppColors.blackColor,
-                                            fontSize: fontSize,
-                                          ),
-                                          hintText: "enter_otp".tr,
-                                          errorText:
-                                              controller.invalidOtp.value
-                                                  ? "invalid_otp".tr
-                                                  : null,
-                                          hintStyle: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            color: AppColors.greyColor,
-                                            fontSize: fontSize,
-                                          ),
+                                        hintText: "enter_otp".tr,
+                                        errorText: controller.invalidOtp.value
+                                            ? "invalid_otp".tr
+                                            : null,
+                                        hintStyle: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: AppColors.greyColor,
+                                          fontSize: fontSize,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 20.h),
-                                    Visibility(
-                                      visible: controller.showRetryTextView(),
-                                      child:
-                                          controller.ttl.value == 0
-                                              ? TextButton(
-                                                child: Text(
-                                                  "verification_timed_out_retry_again"
-                                                      .tr,
-                                                  style: TextStyle(
-                                                    decoration:
-                                                        TextDecoration
-                                                            .underline,
-                                                    color: AppColors.blueColor,
-                                                  ),
-                                                ),
-                                                onPressed:
-                                                    () =>
-                                                        controller
-                                                            .tempResult
-                                                            .value = null,
-                                              )
-                                              : Text(
-                                                "${"retry_again_after".tr} ${controller.ttl.value}",
+                                  ),
+                                  SizedBox(height: 20.h),
+                                  Visibility(
+                                    visible: controller.showRetryTextView(),
+                                    child: controller.ttl.value == 0
+                                        ? TextButton(
+                                            child: Text(
+                                              "verification_timed_out_retry_again"
+                                                  .tr,
+                                              style: TextStyle(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                color: AppColors.blueColor,
                                               ),
-                                    ),
-                                  ],
-                                ),
+                                            ),
+                                            onPressed: () =>
+                                                controller.tempResult.value =
+                                                    null,
+                                          )
+                                        : Text(
+                                            "${"retry_again_after".tr} ${controller.ttl.value}",
+                                          ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                          Obx(
-                            () => Visibility(
-                              visible:
-                                  controller.showInputNumberView() ||
-                                  controller.showInputNameView() ||
-                                  controller.showInputOtpView(),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 10.w,
-                                  vertical: 5.h,
-                                ),
-                                child: Column(
-                                  children: [
-                                    if (controller.isTruecallerAvailable.value && controller.showInputNumberView()) ...[
-                                      PrimaryButton(
-                                        text: 'login_with_truecaller'.tr,
-                                        onTap: () => controller.signInWithTruecaller(),
-                                      ),
-                                      SizedBox(height: 10.h),
-                                      Text('OR'.tr, style: TextStyle(color: AppColors.greyColor)),
-                                      SizedBox(height: 10.h),
-                                    ],
+                        ),
+                        Obx(
+                          () => Visibility(
+                            visible:
+                                controller.showInputNumberView() ||
+                                controller.showInputNameView() ||
+                                controller.showInputOtpView(),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 5.h,
+                              ),
+                              child: Column(
+                                children: [
+                                  if (controller.isTruecallerAvailable.value &&
+                                      controller.showInputNumberView()) ...[
                                     PrimaryButton(
-                                      isActive: controller.isPhoneValid.value,
-                                      text: 'proceed'.tr,
-                                      onTap: () => controller.onProceedClick(),
+                                      text: 'login_with_truecaller'.tr,
+                                      onTap: () =>
+                                          controller.signInWithTruecaller(),
                                     ),
+                                    SizedBox(height: 10.h),
+                                    Text(
+                                      'OR'.tr,
+                                      style: TextStyle(
+                                        color: AppColors.greyColor,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10.h),
                                   ],
-                                ),
+                                  PrimaryButton(
+                                    isActive: controller.isPhoneValid.value,
+                                    text: 'proceed'.tr,
+                                    onTap: () => controller.onProceedClick(),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
+                  ),
           ),
         ),
       ),
     );
   }
 }
+
 class AuthController extends GetxController {
   RxString isoCode = 'IN'.obs;
   RxString dialCode = '+91'.obs;
   RxBool isTruecallerAvailable = false.obs;
-  Stream<TcSdkCallback>? stream;
+  StreamSubscription<TcSdkCallback>? _truecallerSubscription;
   String? codeVerifier;
+  RxBool isApiCalling = false.obs;
 
   @override
   void onInit() {
     if (Platform.isAndroid) {
       _initTruecaller();
     }
+    // isoCode.value = CommonStorage.getString(StorageKeys.selectedCountryIsoCode); // Keep default for demo
+
     super.onInit();
   }
 
   Future<void> _initTruecaller() async {
     debugPrint('Initializing Truecaller SDK...');
     try {
-      // Initialize the SDK
-      TcSdk.initializeSDK(sdkOption: TcSdkOptions.OPTION_VERIFY_ALL_USERS);
-      
-      // Check if SDK is usable
+      TcSdk.initializeSDK(
+        sdkOption: TcSdkOptions.OPTION_VERIFY_ALL_USERS,
+      );
+
       isTruecallerAvailable.value = await TcSdk.isOAuthFlowUsable;
       debugPrint('Truecaller usable: ${isTruecallerAvailable.value}');
 
-      stream = TcSdk.streamCallbackData;
-      stream?.listen((TcSdkCallback event) {
-        debugPrint('Truecaller event: ${event.result}');
+      await _truecallerSubscription?.cancel();
+      _truecallerSubscription = TcSdk.streamCallbackData.listen((
+        TcSdkCallback event,
+      ) {
+        debugPrint('Truecaller Flow - Event: ${event.result}');
+        if (event.error != null) {
+          debugPrint('Truecaller Flow - Error: ${event.error?.code} - ${event.error?.message}');
+        }
+        if (event.exception != null) {
+          debugPrint('Truecaller Flow - Exception: ${event.exception?.message}');
+        }
+
         switch (event.result) {
           case TcSdkCallbackResult.success:
           case TcSdkCallbackResult.verifiedBefore:
           case TcSdkCallbackResult.verificationComplete:
-            debugPrint('Auth Controller: Verification success path: ${event.result}');
+            debugPrint('Truecaller Flow - Success Path Triggered: ${event.result}');
             showProgressBar.value = true;
             onVerificationSuccess(event);
             break;
           case TcSdkCallbackResult.exception:
           case TcSdkCallbackResult.failure:
+            debugPrint('Truecaller Flow - Failure/Exception: ${event.result}');
             handleVerificationCallback(event);
             break;
           case TcSdkCallbackResult.verification:
+            debugPrint('Truecaller Flow - Verification Required Event');
+            _handleVerificationRequired(event);
+            break;
           case TcSdkCallbackResult.missedCallInitiated:
+            debugPrint('Truecaller Flow - Missed Call Initiated');
+            _handleVerificationRequired(event);
+            break;
           case TcSdkCallbackResult.missedCallReceived:
+            debugPrint('Truecaller Flow - Missed Call Received, auto-verifying...');
+            _handleVerificationRequired(event);
+            break;
           case TcSdkCallbackResult.otpInitiated:
           case TcSdkCallbackResult.otpReceived:
+            debugPrint('Truecaller Flow - OTP Event: ${event.result}');
             _handleVerificationRequired(event);
             break;
           default:
+            debugPrint('Truecaller Flow - Unhandled Event: ${event.result}');
             break;
         }
       });
@@ -302,51 +319,56 @@ class AuthController extends GetxController {
   }
 
   void _handleVerificationRequired(TcSdkCallback event) {
+    debugPrint('Truecaller Flow - Handling verification: ${event.result}');
     switch (event.result) {
       case TcSdkCallbackResult.missedCallInitiated:
-        debugPrint('Truecaller: Missed call initiated');
-        showProgressBar.value = true; // Show loader when initiation starts
-        tempResult.value = TcSdkCallbackResult.missedCallInitiated; // Track state
+        debugPrint('Truecaller Flow - Missed call initiated, waiting for call...');
+        showProgressBar.value = true;
+        tempResult.value = TcSdkCallbackResult.missedCallInitiated;
         break;
       case TcSdkCallbackResult.missedCallReceived:
-        debugPrint('Truecaller: Missed call received, verifying...');
-        showProgressBar.value = true; // Ensure loader is shown during auto-verification
+        debugPrint('Truecaller Flow - Missed call received, calling verifyMissedCall...');
+        showProgressBar.value = true;
         tempResult.value = TcSdkCallbackResult.missedCallReceived;
-        // Auto-verify missed call to complete the flow
-        TcSdk.verifyMissedCall(
-          firstName: 'User',
-          lastName: '',
-        );
+        // Verify with an empty name as requested for the demo
+        TcSdk.verifyMissedCall(firstName: '', lastName: '');
         break;
       case TcSdkCallbackResult.otpInitiated:
-        debugPrint('Truecaller: OTP initiated');
-        showProgressBar.value = true; // Show loader when initiation starts
+        debugPrint('Truecaller Flow - OTP initiated, waiting for OTP...');
+        showProgressBar.value = true;
         tempResult.value = TcSdkCallbackResult.otpInitiated;
         break;
       case TcSdkCallbackResult.otpReceived:
-        debugPrint('Truecaller: OTP received');
-        showProgressBar.value = true; // Ensure loader is shown during auto-verification
+        debugPrint('Truecaller Flow - OTP received: ${event.otp}, auto-verifying...');
+        showProgressBar.value = true;
         tempResult.value = TcSdkCallbackResult.otpReceived;
         if (event.otp != null) {
           otpController.text = event.otp!;
-          // Auto-verify OTP if received automatically
-          TcSdk.verifyOtp(
-            firstName: 'User',
-            lastName: '',
-            otp: event.otp!,
-          );
+          TcSdk.verifyOtp(firstName: '', lastName: '', otp: event.otp!);
+        } else {
+          debugPrint('Truecaller Flow - OTP was null, manual entry required.');
         }
         break;
       case TcSdkCallbackResult.verification:
-        debugPrint('Truecaller: Verification required');
+        debugPrint('Truecaller Flow - Full verification flow required');
         CommonToast.error('truecaller_not_found'.tr);
         Future.delayed(const Duration(seconds: 1), () {
+          showProgressBar.value = false;
+          _reinitTrueCaller();
           Get.toNamed(AppRoutes.manualVerifyNumberScreen);
         });
         break;
       default:
+        debugPrint('Truecaller Flow - Event result ${event.result} not specifically handled in _handleVerificationRequired');
         break;
     }
+  }
+
+  void _reinitTrueCaller() {
+    _truecallerSubscription?.cancel();
+    phoneController.clear();
+    tempResult.value = null;
+    _initTruecaller();
   }
 
   Future<void> signInWithTruecaller() async {
@@ -356,9 +378,9 @@ class AuthController extends GetxController {
       return;
     }
 
-    TcSdk.initializeSDK(sdkOption: TcSdkOptions.OPTION_VERIFY_ALL_USERS);
     TcSdk.isOAuthFlowUsable.then((isOAuthFlowUsable) {
       if (isOAuthFlowUsable) {
+        // CustomEvents.sendFirebaseEvent(CustomEvents.authTrueCallerAuto);
         TcSdk.setOAuthState(const Uuid().v1());
         TcSdk.setOAuthScopes(['profile', 'phone', 'openid', 'email']);
         TcSdk.generateRandomCodeVerifier.then((codeVerifier) {
@@ -374,29 +396,11 @@ class AuthController extends GetxController {
           });
         });
       } else {
+        phoneController.clear();
         Get.toNamed(AppRoutes.manualVerifyNumberScreen);
       }
     });
   }
-  // Future<void> signInWithTruecaller() async {
-  //   if (!InternetService().isConnected) {
-  //     CommonToast.error('no_internet_connection'.tr);
-  //     return;
-  //   }
-
-  //   final String phoneNumber = phoneController.text.trim();
-  //   final bool isUsable = await TrueCallerHelper.isUsable();
-
-  //   if (!isUsable && phoneNumber.isEmpty) {
-  //     CommonToast.error('please_enter_phone_number'.tr);
-  //     return;
-  //   }
-
-  //   AppLoader.show();
-  //   await TrueCallerHelper.getProfile(
-  //     phoneNumber: phoneNumber.isNotEmpty ? (dialCode.value + phoneNumber) : null,
-  //   );
-  // }
 
   void onVerificationSuccess(TcSdkCallback event) {
     _handleTruecallerSuccess(
@@ -450,40 +454,27 @@ class AuthController extends GetxController {
     String? avatarUrl,
   }) async {
     try {
-      debugPrint('✅ Truecaller Auth Code: ${oauthData?.authorizationCode}');
-      debugPrint('✅ Truecaller Auth Code: $codeVerifier');
-      debugPrint('✅ Truecaller Access Token: $accessToken');
-      debugPrint('✅ Truecaller Avatar URL: $avatarUrl');
-      debugPrint('✅ Truecaller Profile: ${profile?.phoneNumber}');
-
-      // String? phoneNumber = profile?.phoneNumber;
-
-      // if (profile is TruecallerUserProfile) {
-      //   phoneNumber = profile.phoneNumber;
-      // }
-
-      // if (phoneNumber == null || phoneNumber.isEmpty) {
-      //   phoneNumber = dialCode.value + phoneController.text;
-      // }
-
-      // // Ensure number starts with +
-      // if (!phoneNumber.startsWith('+')) {
-      //   phoneNumber = '+$phoneNumber';
-      // }
-
+      debugPrint('Truecaller Flow - Success Data: AuthCode=${oauthData?.authorizationCode}, AccessToken=$accessToken, Phone=${profile?.phoneNumber}');
+      
       await apiHelper.post(
-        ApiUrls.loginUrl,
+        ApiUrls.loginUrl, // Changed back to loginUrl for demo consistency
         body: {
           if (oauthData?.authorizationCode != null)
-            'authorizationCode': oauthData?.authorizationCode,
-          if (codeVerifier != null) 'codeVerifier': codeVerifier,
-          if (oauthData?.state != null) 'state': oauthData?.state,
-          if (profile?.phoneNumber != null)
-            'phone': profile?.phoneNumber
-          else if (phoneController.text.isNotEmpty)
-            'phone': dialCode.value + phoneController.text,
+            'code': oauthData?.authorizationCode,
+          if (codeVerifier != null) 'code_verifier': codeVerifier,
+          if (profile?.avatarUrl != null) 'avatarUrl': profile?.avatarUrl,
+          if (profile?.email != null) 'email': profile?.email,
+          if (profile?.firstName != null && profile?.lastName != null)
+            'name': '${profile?.firstName} ${profile?.lastName ?? ''}',
+          if (phoneController.text.isNotEmpty)
+            'contact': phoneController.text
+          else if (profile?.phoneNumber != null)
+            'contact': profile?.phoneNumber.replaceAll('+', ''),
+          if (phoneController.text.isNotEmpty && dialCode.value.isNotEmpty)
+            'callingCode': dialCode.value,
         },
         onSuccess: (res) async {
+          isApiCalling.value = false;
           showProgressBar.value = false;
 
           await CommonStorage.saveString(
@@ -495,6 +486,7 @@ class AuthController extends GetxController {
           if (userMap != null) {
             authService.onLogin(UserModel.fromJson(userMap));
           }
+          CommonToast.success('login_successfully'.tr);
 
           Get.offAllNamed(AppRoutes.mainHomeScreen);
         },
@@ -504,6 +496,7 @@ class AuthController extends GetxController {
         },
       );
     } catch (e) {
+      isApiCalling.value = false;
       showProgressBar.value = false;
       debugPrint('❌ Truecaller handle success error: $e');
     }
@@ -517,6 +510,7 @@ class AuthController extends GetxController {
 
   TextEditingController passwordController = TextEditingController();
   RxString passwordError = ''.obs;
+  RxBool isPasswordVisible = false.obs;
 
   RxBool isPhoneValid = false.obs;
   RxBool isEmailValid = false.obs;
@@ -709,7 +703,6 @@ class AuthController extends GetxController {
     );
   }
 
-  // Manual Verification Logic
   bool showInputNumberView() {
     return tempResult.value == null;
   }
@@ -735,26 +728,26 @@ class AuthController extends GetxController {
   void startCountdownTimer(int newTtl) {
     ttl.value = newTtl;
     const oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (ttl.value! < 1) {
-          timer.cancel();
-          showProgressBar.value = false;
-        } else {
-          ttl.value = ttl.value! - 1;
-        }
-      },
-    );
+    _timer = Timer.periodic(oneSec, (Timer timer) {
+      if (ttl.value! < 1) {
+        timer.cancel();
+        showProgressBar.value = false;
+      } else {
+        ttl.value = ttl.value! - 1;
+      }
+    });
   }
 
   void handleVerificationCallback(TcSdkCallback callback) {
-    debugPrint('Auth Controller: handleVerificationCallback received event: ${callback.result}');
+    debugPrint(
+      'Truecaller Flow - handleVerificationCallback: result=${callback.result}, TTL=${callback.ttl}, OTP=${callback.otp}',
+    );
     if (isPhoneValid.value) {
       if (callback.result != TcSdkCallbackResult.exception) {
         tempResult.value = callback.result;
       }
-      showProgressBar.value = tempResult.value == TcSdkCallbackResult.missedCallInitiated;
+      showProgressBar.value =
+          tempResult.value == TcSdkCallbackResult.missedCallInitiated;
       if (tempResult.value == TcSdkCallbackResult.otpReceived ||
           tempResult.value == TcSdkCallbackResult.imOtpReceived) {
         otpController.text = callback.otp!;
@@ -763,118 +756,112 @@ class AuthController extends GetxController {
 
     switch (callback.result) {
       case TcSdkCallbackResult.missedCallInitiated:
-        debugPrint('Auth Controller: Missed call initiated.');
+        debugPrint('Truecaller Flow - State: Missed call initiated.');
         startCountdownTimer(double.parse(callback.ttl!).floor());
-        CommonToast.success(
-          "Missed call Initiated : ${callback.ttl}",
-        );
+        CommonToast.success("Missed call Initiated : ${callback.ttl}");
         break;
       case TcSdkCallbackResult.missedCallReceived:
-        debugPrint('Auth Controller: Missed call received.');
+        debugPrint('Truecaller Flow - State: Missed call received.');
         CommonToast.success("Missed call Received");
         break;
       case TcSdkCallbackResult.otpInitiated:
-        debugPrint('Auth Controller: OTP initiated.');
+        debugPrint('Truecaller Flow - State: OTP initiated.');
         startCountdownTimer(double.parse(callback.ttl!).floor());
-        CommonToast.success(
-          "OTP Initiated : ${callback.ttl}",
-        );
+        CommonToast.success("OTP Initiated : ${callback.ttl}");
         break;
       case TcSdkCallbackResult.otpReceived:
-        debugPrint('Auth Controller: OTP received.');
+        debugPrint('Truecaller Flow - State: OTP received.');
         CommonToast.success("OTP Received : ${callback.otp}");
         break;
       case TcSdkCallbackResult.imOtpInitiated:
-        debugPrint('Auth Controller: IM OTP initiated.');
+        debugPrint('Truecaller Flow - State: IM OTP initiated.');
         startCountdownTimer(double.parse(callback.ttl!).floor());
-        CommonToast.success(
-          "IM OTP Initiated : ${callback.ttl}",
-        );
+        CommonToast.success("IM OTP Initiated : ${callback.ttl}");
         break;
       case TcSdkCallbackResult.imOtpReceived:
-        debugPrint('Auth Controller: IM OTP received.');
+        debugPrint('Truecaller Flow - State: IM OTP received.');
         CommonToast.success("IM OTP Received : ${callback.otp}");
         otpController.text = callback.otp!;
         break;
       case TcSdkCallbackResult.exception:
-        debugPrint('Auth Controller: Verification exception: ${callback.exception!.message}');
-        CommonToast.error(
-          "try_again_after_some_time".tr,
+        debugPrint(
+          'Truecaller Flow - State: Exception - ${callback.exception?.message}',
         );
+        _reinitTrueCaller();
+        CommonToast.error("try_again_after_some_time".tr);
         break;
       case TcSdkCallbackResult.failure:
-        debugPrint('Auth Controller: Verification failure: ${callback.error?.message}');
+        debugPrint(
+          'Truecaller Flow - State: Failure - ${callback.error?.code} - ${callback.error?.message}',
+        );
         CommonToast.error(
           "Failure : ${callback.error?.code ?? 'Unknown'} - ${callback.error?.message ?? ''}",
         );
         showProgressBar.value = false;
         break;
       default:
-        debugPrint('Auth Controller: Unknown verification event: ${tempResult.value.toString()}');
+        debugPrint(
+          'Truecaller Flow - State: Unknown/Other result=${callback.result}',
+        );
         break;
     }
   }
 
   Future<void> onProceedClick() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    debugPrint('Auth Controller: onProceedClick initiated.');
+    debugPrint('Truecaller Flow - onProceedClick called');
 
     if (!isPhoneValid.value) {
-      debugPrint('Auth Controller: Invalid phone number, aborting.');
+      debugPrint('Truecaller Flow - isPhoneValid is false: phone=${phoneController.text}');
       return;
     }
+
     if (showInputNumberView() && isPhoneValid.value) {
-      debugPrint(
-        'Auth Controller: Requesting verification for phoneNumber: ${dialCode.value + phoneController.text}',
-      );
       try {
-        final Map<Permission, PermissionStatus> statuses = await [
-          Permission.phone,
-          // Permission.contacts, // Removed as per user request
-          // Permission.callLog, // Handled by Permission.phone in some versions or not needed separately
-        ].request();
+        debugPrint('Truecaller Flow - Checking permissions for ${phoneController.text}');
+        final Map<Permission, PermissionStatus> statuses =
+            await [Permission.phone].request();
 
         if (statuses[Permission.phone]!.isGranted) {
-          debugPrint('Auth Controller: Requesting verification for phoneNumber: ${phoneController.text}');
+          debugPrint('Truecaller Flow - Permission granted. Requesting verification for phone: ${phoneController.text}, ISO: ${isoCode.value}');
           showProgressBar.value = true;
           await TcSdk.requestVerification(
             phoneNumber: phoneController.text,
             countryISO: isoCode.value,
           );
-          // AppLoader is shown via stream events (missedCallInitiated, etc.)
         } else if (statuses[Permission.phone]!.isPermanentlyDenied) {
-          debugPrint('Auth Controller: Phone permission permanently denied.');
+          debugPrint('Truecaller Flow - Permission permanently denied, opening settings');
           openAppSettings();
         } else {
-          debugPrint('Auth Controller: Phone permission not granted.');
+          debugPrint('Truecaller Flow - Permission denied: ${statuses[Permission.phone]}');
           CommonToast.error('please_grant_all_the_permissions_to_proceed'.tr);
         }
       } on PlatformException catch (exception) {
-        debugPrint('Auth Controller: PlatformException during requestVerification: ${exception.message}');
+        debugPrint('Truecaller Flow - PlatformException in requestVerification: ${exception.code} - ${exception.message}');
         CommonToast.error(exception.message.toString());
       } catch (exception) {
-        debugPrint('Auth Controller: Exception during requestVerification: $exception');
+        debugPrint('Truecaller Flow - General exception in requestVerification: $exception');
         CommonToast.error(exception.toString());
       }
     } else if (tempResult.value == TcSdkCallbackResult.missedCallReceived) {
-      debugPrint('Auth Controller: Verifying missed call.');
+      debugPrint('Truecaller Flow - Manual verifyMissedCall click (tempResult: ${tempResult.value})');
       showProgressBar.value = true;
-      TcSdk.verifyMissedCall(
-        firstName: '',
-        lastName: '',
-      );
+      TcSdk.verifyMissedCall(firstName: '', lastName: '');
     } else if ((tempResult.value == TcSdkCallbackResult.otpInitiated ||
             tempResult.value == TcSdkCallbackResult.otpReceived ||
             tempResult.value == TcSdkCallbackResult.imOtpInitiated ||
             tempResult.value == TcSdkCallbackResult.imOtpReceived) &&
         validateOtp()) {
-      debugPrint('Auth Controller: Verifying OTP.');
+      debugPrint('Truecaller Flow - Manual verifyOtp click: OTP=${otpController.text}');
       showProgressBar.value = true;
-      TcSdk.verifyOtp(
-        firstName: '',
-        lastName: '',
-        otp: otpController.text,
-      );
+      TcSdk.verifyOtp(firstName: '', lastName: '', otp: otpController.text);
+    } else {
+      debugPrint('Truecaller Flow - No action taken in onProceedClick. State: tempResult=${tempResult.value}, isPhoneValid=${isPhoneValid.value}');
+      if (validateOtp() == false) {
+        CommonToast.error('invalid_otp'.tr);
+      } else if (validateName() == false) {
+        CommonToast.error('invalid_name'.tr);
+      }
     }
   }
 
@@ -883,13 +870,20 @@ class AuthController extends GetxController {
     return !invalidOtp.value;
   }
 
+  bool validateName() {
+    if (fNameController.text.isEmpty) {
+      invalidFName.value = true;
+      return false;
+    }
+    invalidFName.value = false;
+    return true;
+  }
+
   @override
   void onClose() {
-    phoneController.dispose();
-    fNameController.dispose();
-    lNameController.dispose();
-    otpController.dispose();
+    _truecallerSubscription?.cancel();
     _timer?.cancel();
+    showProgressBar.value = false;
     super.onClose();
   }
 }

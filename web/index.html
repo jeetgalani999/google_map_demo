@@ -31,6 +31,73 @@
 
   <title>ads_demo</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* Aggressive CSS to hide ALL Google Maps development overlays */
+    
+    /* 1. Hide the "This page can't load Google Maps correctly" popup */
+    .gm-err-container, .gm-err-content, .gm-err-icon, .gm-err-title, .gm-err-message, .dismissButton {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    /* 2. Hide the dark grey overlay covering the map */
+    .gm-style > div:nth-child(2) {
+      display: none !important;
+      background-color: transparent !important;
+      background-image: none !important;
+    }
+
+    /* 3. Hide the "For development purposes only" text and banner */
+    .gm-style-cc {
+      display: none !important;
+    }
+    .gm-style-cc:last-child {
+      display: none !important;
+    }
+    .gm-style .gm-style-cc {
+      display: none !important;
+    }
+    
+    /* 4. Catch-all for any grey tint on the map container */
+    .gm-style > div:nth-of-type(2) {
+      display: none !important;
+      background-color: transparent !important;
+    }
+
+    /* 5. Hide watermarks and attribution if needed */
+    .gm-style iframe + div {
+      display: none !important;
+    }
+  </style>
+
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp" id="google-maps-script"></script>
+  
+  <script>
+    // Automatically click "Dismiss" and hide the overlay periodically
+    setInterval(function() {
+      // Hide the error container
+      var errContainers = document.getElementsByClassName('gm-err-container');
+      for (var i = 0; i < errContainers.length; i++) {
+        errContainers[i].style.display = 'none';
+      }
+      
+      // Click the dismiss button if it appears
+      var dismissButtons = document.getElementsByClassName('dismissButton');
+      for (var i = 0; i < dismissButtons.length; i++) {
+        dismissButtons[i].click();
+      }
+
+      // Proactively hide the grey overlay div
+      var overlays = document.querySelectorAll('.gm-style > div:nth-child(2)');
+      for (var i = 0; i < overlays.length; i++) {
+        overlays[i].style.display = 'none';
+        overlays[i].style.backgroundColor = 'transparent';
+      }
+    }, 500); // Check every 500ms
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
